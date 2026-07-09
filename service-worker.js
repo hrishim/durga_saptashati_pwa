@@ -1,17 +1,17 @@
-const CACHE_NAME = 'durga-saptashati-pwa-v1';
+const CACHE_NAME = 'durga-saptashati-pwa-v6';
 const APP_SHELL = [
-  './',
-  './index.html',
-  './manifest.json',
-  './pwa.js',
-  './service-worker.js',
-  './favicon.svg',
-  './icons.svg',
-  './icon-180.png',
-  './icon-192.png',
-  './icon-512.png',
-  './assets/index-BZwTmOfZ.css',
-  './assets/index-C-paQNup.js'
+  "./",
+  "./index.html",
+  "./manifest.json",
+  "./pwa.js",
+  "./service-worker.js",
+  "./favicon.svg",
+  "./icons.svg",
+  "./icon-180.png",
+  "./icon-192.png",
+  "./icon-512.png",
+  "./assets/index-BEgd3PFj.css",
+  "./assets/index-QcqROj7-.js"
 ];
 
 self.addEventListener('install', (event) => {
@@ -34,12 +34,10 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      return cached || fetch(event.request).then((response) => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-        return response;
-      });
-    })
+    caches.match(event.request).then((cached) => cached || fetch(event.request).then((response) => {
+      const copy = response.clone();
+      caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+      return response;
+    }))
   );
 });

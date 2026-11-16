@@ -1,4 +1,4 @@
-version 1794832111
+version 1794832749
 about.html
 chapter_01.html
 chapter_02.html
@@ -16,3 +16,4 @@ chapter_13.html
 contents.html
 cover.svg
 index.html
+index_of_verses.html

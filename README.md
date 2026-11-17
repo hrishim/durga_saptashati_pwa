@@ -22,7 +22,7 @@ Reading position, font size and bookmarks are local to each device. Bookmarks ca
 
 `book/index.html`, `flipbook.css` and `flipbook.js` are the buildless web sources. `book-data.js` is the source-preserving data artifact; all cover images, icons and WOFF2 fonts are local. No package installation is required. `native/main.swift`, `PageTurn.swift`, `Info.plist`, `icon1024.png` and `build_app.sh` are the complete Mac sources.
 
-When changing book resources, bump the offline cache version in `book/service-worker.js` and the matching release in `book/manifest.txt`. List every native/offline resource in the manifest. Publish the repository's `main` branch with GitHub Pages. The original assets and standard chapter pages are retained in the repository.
+When changing book resources, bump the offline cache version in `book/service-worker.js` and the matching release in `book/manifest.txt`. List every native/offline resource in the manifest. Commit sources to `main`, then mirror the tested `book/` and root web files to `gh-pages`, the configured GitHub Pages source branch. The original assets and standard chapter pages are retained in the repository.
 
 ## Release verification
 

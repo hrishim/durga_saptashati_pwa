@@ -4,8 +4,8 @@
 <key>CFBundleName</key><string>Durga Saptashati</string>
 <key>CFBundleDisplayName</key><string>Durga Saptashati</string>
 <key>CFBundleIdentifier</key><string>in.hrishim.durga-saptashati-native</string>
-<key>CFBundleVersion</key><string>1</string>
-<key>CFBundleShortVersionString</key><string>1.0</string>
+<key>CFBundleVersion</key><string>2</string>
+<key>CFBundleShortVersionString</key><string>2.0</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>CFBundleExecutable</key><string>DurgaSaptashati</string>
 <key>CFBundleIconFile</key><string>AppIcon</string>

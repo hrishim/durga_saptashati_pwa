@@ -1,23 +1,13 @@
-version 1794839330
-about.html
-chapter_01.html
-chapter_02.html
-chapter_03.html
-chapter_04.html
-chapter_05.html
-chapter_06.html
-chapter_07.html
-chapter_08.html
-chapter_09.html
-chapter_10.html
-chapter_11.html
-chapter_12.html
-chapter_13.html
-contents.html
-cover.jpg
-cover.svg
+version durga-flipbook-20261117-1
 index.html
-index_of_verses.html
+flipbook.css
+flipbook.js
+book-data.js
+cover.jpg
+manifest.webmanifest
+icon-180.png
+icon-192.png
+icon-512.png
 noto-serif-devanagari-normal-devanagari.woff2
 noto-serif-devanagari-normal-latin-ext.woff2
 noto-serif-devanagari-normal-latin.woff2
@@ -25,3 +15,4 @@ noto-serif-italic-latin-ext.woff2
 noto-serif-italic-latin.woff2
 noto-serif-normal-latin-ext.woff2
 noto-serif-normal-latin.woff2
+service-worker.js

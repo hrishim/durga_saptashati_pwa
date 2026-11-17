@@ -7,6 +7,7 @@ let baseURL = URL(string: "https://hrishim.github.io/durga_saptashati_pwa/book/"
 final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate {
     var window: NSWindow!
     var webView: WKWebView!
+    let pageTurn = PageTurn()
     let fm = FileManager.default
 
     var supportDir: URL {
@@ -18,12 +19,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate {
 
     func currentDir() -> URL {
         let index = liveDir.appendingPathComponent("index.html")
-        return fm.fileExists(atPath: index.path) ? liveDir : bundledDir
+        let version = (try? String(contentsOf: liveDir.appendingPathComponent("manifest.txt"), encoding: .utf8)) ?? ""
+        return fm.fileExists(atPath: index.path) && version.hasPrefix("version durga-flipbook-") ? liveDir : bundledDir
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         buildMenu()
-        webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
+        let config = WKWebViewConfiguration()
+        config.userContentController.add(pageTurn, name: "pageTurn")
+        webView = WKWebView(frame: .zero, configuration: config)
+        pageTurn.web = webView
+        pageTurn.onFullScreen = { [weak self] in self?.window.toggleFullScreen(nil) }
         webView.navigationDelegate = self
         webView.allowsMagnification = true
 
@@ -91,7 +97,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate {
                 .components(separatedBy: .newlines)
                 .map { $0.trimmingCharacters(in: .whitespaces) }
                 .filter { !$0.isEmpty }
-            guard let version = lines.first else { return }
+            guard let version = lines.first, version.hasPrefix("version durga-flipbook-") else { return }
+            let bundled = (try? String(contentsOf: self.bundledDir.appendingPathComponent("manifest.txt"), encoding: .utf8))?.components(separatedBy: .newlines).first ?? ""
+            guard version > bundled else { return }
 
             var oldVersion: String? = nil
             if let old = try? String(contentsOf: self.liveDir.appendingPathComponent("manifest.txt"), encoding: .utf8) {
@@ -99,6 +107,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate {
             }
             if oldVersion == version { return }
 
+            guard lines.dropFirst().allSatisfy({ !$0.contains("/") && $0 != "." && $0 != ".." }) else { return }
             let tmp = self.supportDir.appendingPathComponent("tmp-" + UUID().uuidString, isDirectory: true)
             do {
                 try self.fm.createDirectory(at: tmp, withIntermediateDirectories: true)
@@ -126,7 +135,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate {
 
     // After an update, switch to the new copy only if the reader is still on the cover.
     func reloadIfAtStart() {
-        let js = "(document.getElementById('pg')||{}).textContent||''"
+        let js = "(document.getElementById('position')||{}).textContent||''"
         webView.evaluateJavaScript(js) { result, _ in
             if let label = result as? String, label.hasPrefix("Cover") || label.hasPrefix("Page 1 ") {
                 self.loadBook()
